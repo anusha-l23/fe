@@ -18,8 +18,11 @@ import api from "../api";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
-const Signup = () => {
+import { registerUser, registerUserSuccessful } from "../store/actions";
+import { useSelector, useDispatch } from "react-redux";
 
+const Signup = () => {
+const dispatch = useDispatch();
   const navigate = useNavigate();
   const validation = useFormik({
     // enableReinitialize : use this flag when initial values needs to be changed
@@ -44,19 +47,17 @@ const Signup = () => {
    
 
         onSubmit: async(values) => {
-            if (values?.password !== values?.confirmPassword) {
-                toast.error("New password should match with confirm password");
-              } else {
-
+          
                 try {
-                    const res = await api.signUp(values);
-                    toast.success("User Registered Successfully");
-                    navigate("/login");
+            
+                  dispatch(registerUser(values));
+                  navigate('/login');
+                  toast.success("User Registered Successfully");
                 } catch (e) {
                   toast.error("User already registered");
 
                 }
-              }
+              
            
           
         },

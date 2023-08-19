@@ -17,7 +17,7 @@ function App() {
       <Route exact path="/" element={<Signup />} />
       <Route exact path="/login" element={<Login/>} />
       <Route exact path="/forgot-password" element={<ForgotPassword/>} />
-      <Route exact path="/reset-password" element={<ResetPassword/>} />
+      <Route exact path="/reset-password/:code" element={<ResetPassword/>} />
       <Route exact path="/dashboard" element={<Dashboard/>} />
       </Routes>
     </BrowserRouter>
