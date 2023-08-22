@@ -13,7 +13,7 @@ import {
 } from "reactstrap";
 import { toast } from 'react-toastify';
 import { Link } from "react-router-dom";
-import logo from "../images/favicon-16x16.png";
+import logo from "../assets/images/favicon-16x16.png";
 import api from "../api";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -64,7 +64,7 @@ const dispatch = useDispatch();
   });
 
   return (
-    <div style={{ height: "150vh" }}>
+    <div>
 <div className="text-center">
   <h3 className="mt-4">Signup Page</h3>
 </div>
@@ -76,10 +76,10 @@ const dispatch = useDispatch();
                   <div className="m-3">
                     <Link to="/" style={{color:'black', textDecoration:"none"}}>
                     <div className="d-flex flex-row">
-  <div className="py-3">
+                    <div>
                   <img src={logo} alt="" height="24" className="" /> 
-                  </div>
-  <div className="p-2">
+      </div>
+      <div>
                       <span className="fs-4">Leanfolks</span>
                       </div>
 </div>

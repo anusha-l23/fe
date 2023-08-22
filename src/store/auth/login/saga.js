@@ -16,7 +16,7 @@ function* loginUser({ payload: { user } }) {
         password: user.password,
       });
       console.log(response);
-      localStorage.setItem("authUser", JSON.stringify(response));
+      localStorage.setItem("authUser", JSON.stringify(response.user));
       localStorage.setItem("token", response.token);
       yield put(loginSuccess(response));
     }

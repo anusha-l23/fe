@@ -1,10 +1,15 @@
 import React from 'react'
-
+import ProfileMenu from '../ProfileMenu';
 const Dashboard = () => {
   return (
-    <div className='text-center fs-3 mt-5'>
+    
+  <>
+      <ProfileMenu />
+      <div className='text-center fs-3 mt-5'>
         Hi, welcome to our Leanfolks
+       
         </div>
+        </>
   )
 }
 

@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+
 import './App.css';
 import React from 'react';
 import { BrowserRouter, Routes,Route, Switch } from 'react-router-dom';
@@ -7,6 +7,7 @@ import Login from './components/Login';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
 import Dashboard from './components/dashboard';
+import EditProfile from './components/EditProfile';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 function App() {
@@ -19,6 +20,7 @@ function App() {
       <Route exact path="/forgot-password" element={<ForgotPassword/>} />
       <Route exact path="/reset-password/:code" element={<ResetPassword/>} />
       <Route exact path="/dashboard" element={<Dashboard/>} />
+      <Route exact path="/edit-profile" element={<EditProfile/>} />
       </Routes>
     </BrowserRouter>
     <ToastContainer/>

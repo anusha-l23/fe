@@ -14,7 +14,7 @@ import {
 import { toast } from 'react-toastify';
 import { Link } from "react-router-dom";
 import api from "../api";
-import logo from "../images/favicon-16x16.png";
+import logo from "../assets/images/favicon-16x16.png";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
@@ -38,7 +38,6 @@ const ForgotPassword = () => {
                 try {
                     dispatch(userForgetPassword(values));
                     toast.success("Sent email for resetting password, please check your mail to get reset password link");
-                    //navigate("/reset-password");
                 } catch (e) {
                   toast.error("Email sending failed...");
               }
@@ -50,7 +49,7 @@ const ForgotPassword = () => {
 
 
   return (
-    <div style={{ height: "150vh" }}>
+    <div>
 <div className="text-center">
   <h3 className="mt-4">Forgot Password Page</h3>
 </div>
@@ -62,10 +61,10 @@ const ForgotPassword = () => {
                   <div className="m-3">
                     <Link to="/" style={{color:'black', textDecoration:"none"}}>
                     <div className="d-flex flex-row">
-  <div className="py-3">
+                    <div>
                   <img src={logo} alt="" height="24" className="" /> 
-                  </div>
-  <div className="p-2">
+      </div>
+      <div>
                       <span className="fs-4">Leanfolks</span>
                       </div>
 </div>

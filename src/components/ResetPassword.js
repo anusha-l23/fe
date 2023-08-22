@@ -13,7 +13,7 @@ import {
 } from "reactstrap";
 import { toast } from 'react-toastify';
 import { Link } from "react-router-dom";
-import logo from "../images/favicon-16x16.png";
+import logo from "../assets/images/favicon-16x16.png";
 import axios from "axios";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -23,7 +23,7 @@ const ResetPassword = () => {
   const { code } = useParams();
   console.log(code, "code")
   const obj = JSON.parse(localStorage.getItem("authUser"));
-  const email = obj.user.email;
+  const email = obj.email;
   const navigate = useNavigate();
   const validation = useFormik({
     // enableReinitialize : use this flag when initial values needs to be changed
@@ -50,7 +50,7 @@ const ResetPassword = () => {
 
           const res = await axios.post(`http://localhost:3002/users/reset-password/${code}`, { ...values, code, email });
           toast.success("Password updated Successfully");
-          navigate("/login");
+        navigate("/login");
         } catch (e) {
           toast.error("Invalid token");
         }
@@ -61,7 +61,7 @@ const ResetPassword = () => {
   });
 
   return (
-    <div style={{ height: "150vh" }}>
+    <div>
       <div className="text-center">
         <h3 className="mt-4">Reset Password Page</h3>
       </div>
@@ -73,11 +73,11 @@ const ResetPassword = () => {
                 <div className="m-3">
                   <Link to="/" style={{ color: 'black', textDecoration: "none" }}>
                     <div className="d-flex flex-row">
-                      <div className="py-3">
-                        <img src={logo} alt="" height="24" className="" />
-                      </div>
-                      <div className="p-2">
-                        <span className="fs-4">Leanfolks</span>
+                    <div>
+                  <img src={logo} alt="" height="24" className="" /> 
+      </div>
+      <div>
+                      <span className="fs-4">Leanfolks</span>
                       </div>
                     </div>
                   </Link>
