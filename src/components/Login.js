@@ -160,6 +160,14 @@ const dispatch = useDispatch();
                           >
                             Login
                           </button>
+                          </div>
+                          <div className="mt-4 text-center">
+                          <Link to="/edit-profile"
+                            className="text-black"
+                            type="submit"
+                          >
+                            Update Profile
+                          </Link>
                         </div>
                       </Col>
                     </Row>

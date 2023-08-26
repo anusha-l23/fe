@@ -13,14 +13,13 @@ import {
   Form,
 } from "reactstrap";
 import axios from "axios";
-// Formik Validation
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import { editProfile } from "../store/actions";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
+import logo from "../assets/images/favicon-16x16.png";
 
-//redux
 import { useSelector, useDispatch } from "react-redux";
 
 
@@ -80,12 +79,33 @@ const navigate = useNavigate();
 
 
   return (
-    <React.Fragment>
-        <div style={{ height: "150vh"}} className="mx-auto w-50 mt-5">
-        <Container fluid>
+   
+
+    <div>
+<div className="text-center">
+  <h3 className="mt-4">Update Profile Page</h3>
+</div>
+        <Container>
+          <Row className="justify-content-center">
+            <Col lg={7} md={10} xl={6}>
+              <Card className="mt-5">
+                <CardBody className="p-4">
+                  <div className="m-3">
+                    <Link to="/" style={{color:'black', textDecoration:"none"}}>
+                    <div className="d-flex flex-row">
+  <div>
+                  <img src={logo} alt="" height="24" className="" /> 
+      </div>
+      <div>
+                      <span className="fs-4">Leanfolks</span>
+                      </div>
+</div>
+                    </Link>
+ 
+                  </div>
           <Row>
             <Col lg="12">
-              <Card>
+          
                 <CardBody>
                   {!avatarPreview?.url ? (
                     <div className="">
@@ -108,10 +128,10 @@ const navigate = useNavigate();
                   </div>
                 </div>)}
                 </CardBody>
-              </Card>
+           
             </Col>
           </Row>
-          <Card>
+       
             <CardBody>
               <Form
                 className="form-horizontal"
@@ -218,12 +238,10 @@ const navigate = useNavigate();
                 </div>
               </Form>
             </CardBody>
-          </Card>
-        </Container>
+</CardBody>
+</Card></Col>
+</Row></Container></div>
 
-     
-      </div>
-    </React.Fragment>
   );
 };
 
