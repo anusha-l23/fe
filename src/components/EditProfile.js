@@ -29,31 +29,61 @@ const UserProfile = () => {
 
   const [data, setData] = useState({});
   const api = new APIClient()
-  const [avatarPreview, setAvatarPreview] = useState({});
+  const [picture, setPicture] = useState();
 
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
     console.log(file, "file")
-   
+    setPicture(file)
+// if(file){
+//       const reader = new FileReader(); 
+//       reader.onloadend = () => {
+//         setPicture({ url: reader.result, file });
+//       }
+//      reader.readAsDataURL(file);
+//     }
+  };
 
-      const reader = new FileReader();
-       setAvatarPreview({ url: reader.result, file });
-      reader.onloadend = () => {
-       
-     reader.readAsDataURL(file);
-    }
+  const handleUpload = async(e) => {
+    e.preventDefault();
     const formData = new FormData();
-    formData.append("picture", file);
-    console.log(file, "formData")
-    await api.create(FILE_UPLOAD, {
-      data:formData,
+    formData.append("picture", picture);
+    console.log(formData, "formData")
+    const response = await axios.post("http://localhost:3002/users/fileUpload",
+    formData,
+    {
       headers: {
       "Content-Type": "multipart/form-data",
       }
     })
-      .then((res) => console.log(res, "res"))
-      .catch(error => error.message);
-  };
+     console.log(response);
+  }
+  console.log(picture, "picturename")
+
+  
+//   const handleFileChange = async (event) => {
+//     const file = event.target.files[0];
+//     console.log(file, "file")
+//     setPicture(file)
+// if(file){
+//       const reader = new FileReader(); 
+//       reader.onloadend = () => {
+//         setPicture({ url: reader.result, file });
+//       }
+//      reader.readAsDataURL(file);
+//     }
+//     const formData = new FormData();
+//     formData.append("picture", picture);
+//     console.log(formData, "formData")
+//     const result = await axios.post("http://localhost:3002/users/fileUpload",
+//     formData,
+//     {
+//       headers: {
+//       "Content-Type": "multipart/form-data",
+//       }
+//     })
+//   }
+  
 
   useEffect(() => {
     if (localStorage.getItem("authUser")) {
@@ -70,7 +100,7 @@ const UserProfile = () => {
       firstName: data?.firstName || "",
       lastName: data?.lastName || "",
       email: data?.email || "",
-      picture: data?.picture || "",
+    picture: data?.picture || "",
     },
     validationSchema: Yup.object({
       firstName: Yup.string().required("Please Enter Your First Name"),
@@ -84,7 +114,6 @@ const UserProfile = () => {
       navigate("/dashboard")
     },
   });
-
   return (
 
     <div>
@@ -113,7 +142,7 @@ const UserProfile = () => {
                   <Col lg="12">
 
                     <CardBody>
-                      {!avatarPreview?.url ? (
+                      {!picture ? (
                         <div className="">
                           <input
                             type="file"
@@ -124,16 +153,19 @@ const UserProfile = () => {
                             onChange={handleFileChange}
                           />
                         </div>
-                      ) : (<div className="d-flex">
+                      ) : (<div className="d-flex gap-4">
                         <div className="ms-3">
                           <img
-                            src={avatarPreview?.url}
-                            alt="Avatar Preview"
+                            src={picture.name}
+                            alt="Profile Picture"
                             className="avatar-md rounded-circle img-thumbnail w-50"
                           />
                         </div>
+                        <button onClick={handleUpload} className="px-4">upload</button>
                       </div>
                       )}
+                   
+                     
                     </CardBody>
 
                   </Col>
