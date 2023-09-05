@@ -14,7 +14,6 @@ import {
 import { toast } from 'react-toastify';
 import { Link } from "react-router-dom";
 import logo from "../assets/images/favicon-16x16.png";
-import api from "../api";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";

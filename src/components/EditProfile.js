@@ -17,34 +17,42 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import { editProfile } from "../store/actions";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import logo from "../assets/images/favicon-16x16.png";
-
+import { APIClient } from "../helpers/api_helper";
 import { useSelector, useDispatch } from "react-redux";
-
+import { FILE_UPLOAD } from "../helpers/url_helper";
 
 const UserProfile = () => {
-const navigate = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [data, setData] = useState({});
-
+  const api = new APIClient()
   const [avatarPreview, setAvatarPreview] = useState({});
 
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
-    if (file) {
+    console.log(file, "file")
+   
+
       const reader = new FileReader();
+       setAvatarPreview({ url: reader.result, file });
       reader.onloadend = () => {
-        setAvatarPreview({ url: reader.result, file });
-      };
-      reader.readAsDataURL(file);
+       
+     reader.readAsDataURL(file);
     }
     const formData = new FormData();
-    formData.append("file", file);
-
-    const res = await axios.post(`http://localhost:3002/users/fileUpload`);
-    console.log(res);
+    formData.append("picture", file);
+    console.log(file, "formData")
+    await api.create(FILE_UPLOAD, {
+      data:formData,
+      headers: {
+      "Content-Type": "multipart/form-data",
+      }
+    })
+      .then((res) => console.log(res, "res"))
+      .catch(error => error.message);
   };
 
   useEffect(() => {
@@ -60,9 +68,9 @@ const navigate = useNavigate();
 
     initialValues: {
       firstName: data?.firstName || "",
-    lastName: data?.lastName || "",
-     email: data?.email || "",
-     picture: data?.picture || "",
+      lastName: data?.lastName || "",
+      email: data?.email || "",
+      picture: data?.picture || "",
     },
     validationSchema: Yup.object({
       firstName: Yup.string().required("Please Enter Your First Name"),
@@ -72,175 +80,174 @@ const navigate = useNavigate();
 
     }),
     onSubmit: (values) => {
-    dispatch(editProfile(values));
-    navigate("/dashboard")
+      dispatch(editProfile(values));
+      navigate("/dashboard")
     },
   });
 
-
   return (
-   
 
     <div>
-<div className="text-center">
-  <h3 className="mt-4">Update Profile Page</h3>
-</div>
-        <Container>
-          <Row className="justify-content-center">
-            <Col lg={7} md={10} xl={6}>
-              <Card className="mt-5">
-                <CardBody className="p-4">
-                  <div className="m-3">
-                    <Link to="/" style={{color:'black', textDecoration:"none"}}>
-                    <div className="d-flex flex-row">
-  <div>
-                  <img src={logo} alt="" height="24" className="" /> 
+      <div className="text-center">
+        <h3 className="mt-4">Update Profile Page</h3>
       </div>
-      <div>
-                      <span className="fs-4">Leanfolks</span>
+      <Container>
+        <Row className="justify-content-center">
+          <Col lg={7} md={10} xl={6}>
+            <Card className="mt-5">
+              <CardBody className="p-4">
+                <div className="m-3">
+                  <Link to="/" style={{ color: 'black', textDecoration: "none" }}>
+                    <div className="d-flex flex-row">
+                      <div>
+                        <img src={logo} alt="" height="24" className="" />
                       </div>
-</div>
-                    </Link>
- 
-                  </div>
-          <Row>
-            <Col lg="12">
-          
-                <CardBody>
-                  {!avatarPreview?.url ? (
-                    <div className="">
-                      <input
-                        type="file"
-                        name="picture"
-                        className="form-control-file"
-                        id="file"
-                        accept="image/*"
-                        onChange={handleFileChange}
-                      />
+                      <div>
+                        <span className="fs-4">Leanfolks</span>
+                      </div>
                     </div>
-                  ) : (    <div className="d-flex">
-                  <div className="ms-3">
-                    <img
-                      src={avatarPreview?.url}
-                      alt="Avatar Preview"
-                      className="avatar-md rounded-circle img-thumbnail w-50"
-                    />
-                  </div>
-                </div>)}
-                </CardBody>
-           
-            </Col>
-          </Row>
-       
-            <CardBody>
-              <Form
-                className="form-horizontal"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  validation.handleSubmit();
-                  return false;
-                }}
-              >
+                  </Link>
+
+                </div>
                 <Row>
-                  <Col md={12}>
-                    <div className="mb-4">
-                      <Row>
-                        <Col md={6}>
-                          <Label className="form-label">First Name</Label>
-                          <Input
-                            name="firstName"
-                            type="text"
-                            placeholder="Enter First Name"
-                            onChange={validation.handleChange}
-                            onBlur={validation.handleBlur}
-                            value={validation.values.firstName || ""}
-                            invalid={
-                              validation.touched.firstName &&
-                              validation.errors.firstName
-                                ? true
-                                : false
-                            }
+                  <Col lg="12">
+
+                    <CardBody>
+                      {!avatarPreview?.url ? (
+                        <div className="">
+                          <input
+                            type="file"
+                            name="picture"
+                            className="form-control-file"
+                            id="file"
+                          accept="image/*"
+                            onChange={handleFileChange}
                           />
-                          {validation.touched.firstName &&
-                          validation.errors.firstName ? (
-                            <FormFeedback type="invalid">
-                              <div>{validation.errors.firstName}</div>
-                            </FormFeedback>
-                          ) : null}
-                        </Col>
-                        <Col md={6}>
-                          <Label className="form-label">Last Name</Label>
-                          <Input
-                            name="lastName"
-                            type="text"
-                            placeholder="Enter Last Name"
-                            onChange={validation.handleChange}
-                            onBlur={validation.handleBlur}
-                            value={validation.values.lastName || ""}
-                            invalid={
-                              validation.touched.lastName &&
-                              validation.errors.lastName
-                                ? true
-                                : false
-                            }
+                        </div>
+                      ) : (<div className="d-flex">
+                        <div className="ms-3">
+                          <img
+                            src={avatarPreview?.url}
+                            alt="Avatar Preview"
+                            className="avatar-md rounded-circle img-thumbnail w-50"
                           />
-                          {validation.touched.lastName &&
-                          validation.errors.lastName ? (
-                            <FormFeedback type="invalid">
-                              <div>{validation.errors.lastName}</div>
-                            </FormFeedback>
-                          ) : null}
-                        </Col>
-                      </Row>
-                    </div>
-                   
-                    <div className="mb-4">
-               
-                      <Row>
-                        <Col md={6}>
-                      <Label className="form-label">Email</Label>
-                      <Input
-                        id="email"
-                        name="email"
-                        className="form-control"
-                        placeholder="Enter email"
-                        disabled
-                        type="email"
-                        onChange={validation.handleChange}
-                        onBlur={validation.handleBlur}
-                        value={validation.values.email || ""}
-                        invalid={
-                          validation.touched.email && validation.errors.email
-                            ? true
-                            : false
-                        }
-                      />
-                      {validation.touched.email && validation.errors.email ? (
-                        <FormFeedback type="invalid">
-                          <div>{validation.errors.email}</div>
-                        </FormFeedback>
-                      ) : null}
-                      </Col>
-                      <Col md={6}></Col>
-                      </Row>
-                    </div>
+                        </div>
+                      </div>
+                      )}
+                    </CardBody>
+
                   </Col>
                 </Row>
-               
-                <div className="text-center mt-4">
-                  <button
-                    type="submit"
-                    className="btn btn-primary waves-effect waves-light"
+
+                <CardBody>
+                  <Form
+                    className="form-horizontal"
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      validation.handleSubmit();
+                      return false;
+                    }}
                   >
-                    Update Profile
-                  </button>
-               
-                </div>
-              </Form>
-            </CardBody>
-</CardBody>
-</Card></Col>
-</Row></Container></div>
+                    <Row>
+                      <Col md={12}>
+                        <div className="mb-4">
+                          <Row>
+                            <Col md={6}>
+                              <Label className="form-label">First Name</Label>
+                              <Input
+                                name="firstName"
+                                type="text"
+                                placeholder="Enter First Name"
+                                onChange={validation.handleChange}
+                                onBlur={validation.handleBlur}
+                                value={validation.values.firstName || ""}
+                                invalid={
+                                  validation.touched.firstName &&
+                                    validation.errors.firstName
+                                    ? true
+                                    : false
+                                }
+                              />
+                              {validation.touched.firstName &&
+                                validation.errors.firstName ? (
+                                <FormFeedback type="invalid">
+                                  <div>{validation.errors.firstName}</div>
+                                </FormFeedback>
+                              ) : null}
+                            </Col>
+                            <Col md={6}>
+                              <Label className="form-label">Last Name</Label>
+                              <Input
+                                name="lastName"
+                                type="text"
+                                placeholder="Enter Last Name"
+                                onChange={validation.handleChange}
+                                onBlur={validation.handleBlur}
+                                value={validation.values.lastName || ""}
+                                invalid={
+                                  validation.touched.lastName &&
+                                    validation.errors.lastName
+                                    ? true
+                                    : false
+                                }
+                              />
+                              {validation.touched.lastName &&
+                                validation.errors.lastName ? (
+                                <FormFeedback type="invalid">
+                                  <div>{validation.errors.lastName}</div>
+                                </FormFeedback>
+                              ) : null}
+                            </Col>
+                          </Row>
+                        </div>
+
+                        <div className="mb-4">
+
+                          <Row>
+                            <Col md={6}>
+                              <Label className="form-label">Email</Label>
+                              <Input
+                                id="email"
+                                name="email"
+                                className="form-control"
+                                placeholder="Enter email"
+                                disabled
+                                type="email"
+                                onChange={validation.handleChange}
+                                onBlur={validation.handleBlur}
+                                value={validation.values.email || ""}
+                                invalid={
+                                  validation.touched.email && validation.errors.email
+                                    ? true
+                                    : false
+                                }
+                              />
+                              {validation.touched.email && validation.errors.email ? (
+                                <FormFeedback type="invalid">
+                                  <div>{validation.errors.email}</div>
+                                </FormFeedback>
+                              ) : null}
+                            </Col>
+                            <Col md={6}></Col>
+                          </Row>
+                        </div>
+                      </Col>
+                    </Row>
+
+                    <div className="text-center mt-4">
+                      <button
+                        type="submit"
+                        className="btn btn-primary waves-effect waves-light"
+                      >
+                        Update Profile
+                      </button>
+
+                    </div>
+                  </Form>
+                </CardBody>
+              </CardBody>
+            </Card></Col>
+        </Row></Container></div>
 
   );
 };

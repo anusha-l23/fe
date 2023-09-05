@@ -13,7 +13,6 @@ import {
 } from "reactstrap";
 import { toast } from 'react-toastify';
 import { Link } from "react-router-dom";
-import api from "../api";
 import logo from "../assets/images/favicon-16x16.png";
 import * as Yup from "yup";
 import { useFormik } from "formik";
