@@ -47,7 +47,7 @@ if(file){
     e.preventDefault();
     const formData = new FormData();
     formData.append("picture", picture);
-    const response = await axios.post("http://localhost:3002/users/fileUpload",
+   await axios.post(FILE_UPLOAD,
     formData,
     {
       headers: {
@@ -126,7 +126,7 @@ if(file){
                             onChange={handleFileChange}
                           />
                         </div>
-                      ) : (<div className="d-flex gap-4">
+                      ) : (<><div className="d-flex gap-4">
                         <div className="ms-3">
                           <img
                             src={pictureDisplay?.url}
@@ -134,8 +134,10 @@ if(file){
                             className="avatar-md rounded-circle img-thumbnail w-50"
                           />
                         </div>
-                        <button onClick={handleUpload} className="px-4">upload</button>
+                       
                       </div>
+                       <button onClick={handleUpload} className="px-4">upload</button>
+                       </>
                       )}
                    
                      
