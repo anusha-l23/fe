@@ -30,25 +30,23 @@ const UserProfile = () => {
   const [data, setData] = useState({});
   const api = new APIClient()
   const [picture, setPicture] = useState();
-
+  const [pictureDisplay, setPictureDisplay] = useState();
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
     console.log(file, "file")
     setPicture(file)
-// if(file){
-//       const reader = new FileReader(); 
-//       reader.onloadend = () => {
-//         setPicture({ url: reader.result, file });
-//       }
-//      reader.readAsDataURL(file);
-//     }
+if(file){
+      const reader = new FileReader(); 
+      reader.onloadend = () => {
+        setPictureDisplay({ url: reader.result, file });
+      }
+     reader.readAsDataURL(file);
+    }
   };
-
   const handleUpload = async(e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("picture", picture);
-    console.log(formData, "formData")
     const response = await axios.post("http://localhost:3002/users/fileUpload",
     formData,
     {
@@ -56,34 +54,9 @@ const UserProfile = () => {
       "Content-Type": "multipart/form-data",
       }
     })
-     console.log(response);
   }
-  console.log(picture, "picturename")
 
-  
-//   const handleFileChange = async (event) => {
-//     const file = event.target.files[0];
-//     console.log(file, "file")
-//     setPicture(file)
-// if(file){
-//       const reader = new FileReader(); 
-//       reader.onloadend = () => {
-//         setPicture({ url: reader.result, file });
-//       }
-//      reader.readAsDataURL(file);
-//     }
-//     const formData = new FormData();
-//     formData.append("picture", picture);
-//     console.log(formData, "formData")
-//     const result = await axios.post("http://localhost:3002/users/fileUpload",
-//     formData,
-//     {
-//       headers: {
-//       "Content-Type": "multipart/form-data",
-//       }
-//     })
-//   }
-  
+
 
   useEffect(() => {
     if (localStorage.getItem("authUser")) {
@@ -100,7 +73,7 @@ const UserProfile = () => {
       firstName: data?.firstName || "",
       lastName: data?.lastName || "",
       email: data?.email || "",
-    picture: data?.picture || "",
+    picture: pictureDisplay?.url || "",
     },
     validationSchema: Yup.object({
       firstName: Yup.string().required("Please Enter Your First Name"),
@@ -142,7 +115,7 @@ const UserProfile = () => {
                   <Col lg="12">
 
                     <CardBody>
-                      {!picture ? (
+                      {!pictureDisplay?.url ? (
                         <div className="">
                           <input
                             type="file"
@@ -156,7 +129,7 @@ const UserProfile = () => {
                       ) : (<div className="d-flex gap-4">
                         <div className="ms-3">
                           <img
-                            src={picture.name}
+                            src={pictureDisplay?.url}
                             alt="Profile Picture"
                             className="avatar-md rounded-circle img-thumbnail w-50"
                           />
