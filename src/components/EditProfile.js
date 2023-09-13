@@ -35,25 +35,25 @@ const UserProfile = () => {
     const file = event.target.files[0];
     console.log(file, "file")
     setPicture(file)
-if(file){
-      const reader = new FileReader(); 
+    if (file) {
+      const reader = new FileReader();
       reader.onloadend = () => {
         setPictureDisplay({ url: reader.result, file });
       }
-     reader.readAsDataURL(file);
+      reader.readAsDataURL(file);
     }
   };
-  const handleUpload = async(e) => {
-    e.preventDefault();
+  const handleUpload = async () => {
+    // e.preventDefault();
     const formData = new FormData();
     formData.append("picture", picture);
-   await axios.post(FILE_UPLOAD,
-    formData,
-    {
-      headers: {
-      "Content-Type": "multipart/form-data",
-      }
-    })
+    await axios.post(FILE_UPLOAD,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        }
+      })
   }
 
 
@@ -73,7 +73,7 @@ if(file){
       firstName: data?.firstName || "",
       lastName: data?.lastName || "",
       email: data?.email || "",
-    picture: pictureDisplay?.url || "",
+      picture: pictureDisplay?.url || "",
     },
     validationSchema: Yup.object({
       firstName: Yup.string().required("Please Enter Your First Name"),
@@ -84,6 +84,7 @@ if(file){
     }),
     onSubmit: (values) => {
       dispatch(editProfile(values));
+      handleUpload();
       navigate("/dashboard")
     },
   });
@@ -122,11 +123,11 @@ if(file){
                             name="picture"
                             className="form-control-file"
                             id="file"
-                          accept="image/*"
+                            accept="image/*"
                             onChange={handleFileChange}
                           />
                         </div>
-                      ) : (<><div className="d-flex gap-4">
+                      ) : (<div className="d-flex">
                         <div className="ms-3">
                           <img
                             src={pictureDisplay?.url}
@@ -134,13 +135,10 @@ if(file){
                             className="avatar-md rounded-circle img-thumbnail w-50"
                           />
                         </div>
-                       
                       </div>
-                       <button onClick={handleUpload} className="px-4">upload</button>
-                       </>
                       )}
-                   
-                     
+
+
                     </CardBody>
 
                   </Col>
