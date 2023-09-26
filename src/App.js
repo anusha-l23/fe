@@ -10,6 +10,7 @@ import Dashboard from './components/dashboard';
 import EditProfile from './components/EditProfile';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import EmailVerificationPage from './components/EmailVerification';
 function App() {
   return (
     <React.Fragment>
@@ -21,6 +22,8 @@ function App() {
       <Route exact path="/reset-password/:code" element={<ResetPassword/>} />
       <Route exact path="/dashboard" element={<Dashboard/>} />
       <Route exact path="/edit-profile" element={<EditProfile/>} />
+      <Route exact path="/userVerification" element={<EmailVerificationPage/>} />
+      
       </Routes>
     </BrowserRouter>
     <ToastContainer/>

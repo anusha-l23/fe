@@ -21,6 +21,7 @@ import { registerUser, registerUserSuccessful } from "../store/actions";
 import { useSelector, useDispatch } from "react-redux";
 
 const Signup = () => {
+
 const dispatch = useDispatch();
   const navigate = useNavigate();
   const validation = useFormik({
@@ -48,17 +49,14 @@ const dispatch = useDispatch();
         onSubmit: async(values) => {
           
                 try {
-            
+                  const obj = JSON.parse(localStorage.getItem("authUser"));
                   dispatch(registerUser(values));
-                  navigate('/login');
-                  toast.success("User Registered Successfully");
+                  toast.success("User Registered Successfully, please check your emal for email verification code");
+                 // navigate(`/userVerification?email=${obj.email}`)
                 } catch (e) {
                   toast.error("User already registered");
 
                 }
-              
-           
-          
         },
   });
 
