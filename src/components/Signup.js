@@ -49,10 +49,10 @@ const dispatch = useDispatch();
         onSubmit: async(values) => {
           
                 try {
-                  const obj = JSON.parse(localStorage.getItem("authUser"));
+                  
                   dispatch(registerUser(values));
-                  toast.success("User Registered Successfully, please check your emal for email verification code");
-                 // navigate(`/userVerification?email=${obj.email}`)
+                 toast.success("User Registered Successfully, please check your emal for email verification code");
+                 navigate("/login")
                 } catch (e) {
                   toast.error("User already registered");
 

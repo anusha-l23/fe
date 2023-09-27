@@ -1,31 +1,23 @@
 
 import './App.css';
 import React from 'react';
-import { BrowserRouter, Routes,Route, Switch } from 'react-router-dom';
-import Signup from './components/Signup';
-import Login from './components/Login';
-import ForgotPassword from './components/ForgotPassword';
-import ResetPassword from './components/ResetPassword';
-import Dashboard from './components/dashboard';
-import EditProfile from './components/EditProfile';
+import { BrowserRouter as Router  } from 'react-router-dom';
+// import Signup from './components/Signup';
+// import Login from './components/Login';
+// import ForgotPassword from './components/ForgotPassword';
+// import ResetPassword from './components/ResetPassword';
+// import Dashboard from './components/dashboard';
+// import EditProfile from './components/EditProfile';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import EmailVerificationPage from './components/EmailVerification';
+//import EmailVerificationPage from './components/EmailVerification';
+import RoutesApp from './routes';
 function App() {
   return (
     <React.Fragment>
-    <BrowserRouter>
-<Routes>
-      <Route exact path="/" element={<Signup />} />
-      <Route exact path="/login" element={<Login/>} />
-      <Route exact path="/forgot-password" element={<ForgotPassword/>} />
-      <Route exact path="/reset-password/:code" element={<ResetPassword/>} />
-      <Route exact path="/dashboard" element={<Dashboard/>} />
-      <Route exact path="/edit-profile" element={<EditProfile/>} />
-      <Route exact path="/userVerification" element={<EmailVerificationPage/>} />
-      
-      </Routes>
-    </BrowserRouter>
+<Router>
+<RoutesApp/>
+</Router>
     <ToastContainer/>
     </React.Fragment>
   );

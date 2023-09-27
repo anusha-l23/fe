@@ -39,8 +39,7 @@ const dispatch = useDispatch();
         onSubmit: async(values) => {
                 try {
                     dispatch(loginUser(values));
-                    toast.success("User Loggedin Successfully");
-                    navigate("/dashboard");
+                    navigate("/")
                 } catch (e) {
                   toast.error("Authentication failed");
               }
