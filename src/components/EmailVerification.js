@@ -33,7 +33,7 @@ const EmailVerificationPage = () => {
         navigate("/login")
       }
       catch {
-        toast.error("Email verification failed, please click on resend button to get email for verification link");
+        toast.error("Email verification failed, please check it is either already verified or expired...");
         setExpiry(true);
       }
     },

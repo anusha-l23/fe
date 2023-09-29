@@ -15,7 +15,7 @@ const api = new APIClient();
 function* registerUser({ payload: { user } }) {
   try {
  
-      var res = yield call(api.create, REGISTER,user)
+      var res = yield call(api.create, REGISTER, user)
       yield put(registerUserSuccessful(res))
 
   } catch (error) {

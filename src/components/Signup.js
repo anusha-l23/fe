@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 import logo from "../assets/images/favicon-16x16.png";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { registerUser, registerUserSuccessful } from "../store/actions";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -24,6 +24,7 @@ const Signup = () => {
 
 const dispatch = useDispatch();
   const navigate = useNavigate();
+  
   const validation = useFormik({
     // enableReinitialize : use this flag when initial values needs to be changed
     enableReinitialize: true,
@@ -49,17 +50,19 @@ const dispatch = useDispatch();
         onSubmit: async(values) => {
           
                 try {
-                  
-                  dispatch(registerUser(values));
-                 toast.success("User Registered Successfully, please check your emal for email verification code");
-                 navigate("/login")
+                 await dispatch(registerUser(values));
+               toast.success("User Registered Successfully, please check your emal for email verification code");
+              navigate("/login")
                 } catch (e) {
                   toast.error("User already registered");
-
                 }
         },
   });
-
+  // const user = useSelector(state => ({
+  //   user: state.account.user,
+  //   }))
+  //   console.log(user, "user")
+    
   return (
     <div>
 <div className="text-center">

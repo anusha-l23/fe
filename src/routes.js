@@ -10,8 +10,8 @@ import EmailVerificationPage from './components/EmailVerification';
 
 const RoutesApp = () => (
   <Routes>
-    <Route exact path="/" element={<Dashboard/>} />
-    <Route exact path="/signup" element={<Signup />} />
+    <Route exact path="/dashboard" element={<Dashboard/>} />
+    <Route exact path="/" element={<Signup />} />
       <Route exact path="/login" element={<Login/>} />
       <Route exact path="/forgot-password" element={<ForgotPassword/>} />
       <Route exact path="/reset-password/:code" element={<ResetPassword/>} />

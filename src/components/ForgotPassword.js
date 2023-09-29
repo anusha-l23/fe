@@ -36,7 +36,7 @@ const ForgotPassword = () => {
         onSubmit: async(values) => {
                 try {
                     dispatch(userForgetPassword(values));
-                    toast.success("Sent email for resetting password, please check your mail to get reset password link");
+                     toast.success("Sent email for resetting password, please check your mail to get reset password link");
                 } catch (e) {
                   toast.error("Email sending failed...");
               }
