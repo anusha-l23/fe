@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Row,
   Col,
@@ -21,6 +21,7 @@ import { userForgetPassword } from "../store/actions";
 import { UseSelector, useDispatch } from "react-redux";
 
 const ForgotPassword = () => {
+  const [message, setMessage] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const validation = useFormik({
@@ -36,9 +37,16 @@ const ForgotPassword = () => {
         onSubmit: async(values) => {
                 try {
                     dispatch(userForgetPassword(values));
+                    const obj = JSON.parse(localStorage.getItem("authUser"));
+                    console.log(obj.isEmailVerified, "obj is email")
+                  
+                      if(obj.isEmailVerified === true)
+                      {
                      toast.success("Sent email for resetting password, please check your mail to get reset password link");
+                      }
                 } catch (e) {
                   toast.error("Email sending failed...");
+                  setMessage("Email is not verified, please check your email for verification")
               }
            
           
@@ -70,7 +78,13 @@ const ForgotPassword = () => {
                     </Link>
  
                   </div>
-             
+                  {message && (
+      <div className="mt-4">
+        <Alert color="warning" className="text-center">
+          {message}
+        </Alert>
+      </div>
+    )}
                   <Form
                     className="form-horizontal"
                     onSubmit={(e) => {

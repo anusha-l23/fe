@@ -41,25 +41,19 @@ const Login = () => {
 
       try {  
   await dispatch(loginUser(values));
-  const obj = localStorage.getItem("authUser");
-  console.log(obj, "obj")
-    if(obj.isEmailVerified !== true)
-    {
-    setMessage("Email is not verified, please check your email for verification")
-    }
-    else
+  const obj = JSON.parse(localStorage.getItem("authUser"));
+  console.log(obj.isEmailVerified, "obj is email")
+
+    if(obj.isEmailVerified === true)
     {
       setMessage("")
       toast.success("User loggedin successfully...")
       navigate("/dashboard")
     }
-    // else{
-    //   setMessage("Email is not verified, please check your email for verification")
-    // }
-
 }
       catch (error) {
         toast.error("Authentication failed");
+        setMessage("Email is not verified, please check your email for verification")
       }
     },
 
@@ -104,7 +98,13 @@ const Login = () => {
                     </div>
                   </Col>
                 </Row>
-                {message ? <p className="bg-warning text-center mt-4">{message}</p> : ""}
+                {message && (
+      <div className="mt-4">
+        <Alert color="warning" className="text-center">
+          {message}
+        </Alert>
+      </div>
+    )}
                 <Form
                   className="form-horizontal"
                   onSubmit={(e) => {
